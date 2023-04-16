@@ -11,10 +11,10 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 
 function Copyright() {
     return (
-    <Typography variant="body2" color="text.secondary" align="center">
+        <Typography variant="body2" color="text.secondary" align="center">
             {'Copyright © '}
 
-            Made by Zineb Naciri 
+            Made by Zineb Naciri
 
             {new Date().getFullYear()}
             {'.'}
@@ -46,41 +46,41 @@ export default function StickyFooter() {
                             : theme.palette.grey[800],
                 }}
             >
-               
+
 
                 <Container maxWidth="sm">
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <IconButton
-              href="https://github.com/your-github-username"
-              target="_blank"
-              rel="noopener"
-            >
-              <GitHubIcon />
-            </IconButton>
-            <IconButton
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener"
-            >
-              <FacebookRoundedIcon />
-            </IconButton>
-            <IconButton
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener"
-            >
-              <InstagramIcon />
-            </IconButton>
-            <IconButton
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener"
-            >
-              <TwitterIcon />
-            </IconButton>
-          </Box>
-          <Copyright />
-        </Container>
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <IconButton
+                            href="https://github.com/your-github-username"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <GitHubIcon />
+                        </IconButton>
+                        <IconButton
+                            href="https://facebook.com"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <FacebookRoundedIcon />
+                        </IconButton>
+                        <IconButton
+                            href="https://instagram.com"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <InstagramIcon />
+                        </IconButton>
+                        <IconButton
+                            href="https://instagram.com"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <TwitterIcon />
+                        </IconButton>
+                    </Box>
+                    <Copyright />
+                </Container>
             </Box>
         </Box>
     );
