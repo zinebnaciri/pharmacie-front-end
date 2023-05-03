@@ -58,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
    },
 }));
 
-const pages = ['Home', 'About', 'Contact Us'];
+const pages = ['Home','Add new Pharmacy', 'Contact Us'];
 const settings = ['Profile', 'Account', 'Logout'];
 
 function ResponsiveAppBar() {
