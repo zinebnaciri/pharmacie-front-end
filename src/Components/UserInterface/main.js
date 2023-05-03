@@ -1,70 +1,87 @@
-import * as React from 'react';
 import { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import Stack from '@mui/material/Stack';
 import axios from 'axios';
+import CardPharm from './pharmacyCard';
+
 
 export default function Grouped() {
-    const [options, setOptions] = useState([]);
-    const [error, setError] = useState(null);
-    const [zoneOptions, setZoneOptions] = useState([]);
-    const [selectedCity, setSelectedCity] = useState(null);
+  const [cities, setCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [zones, setZones] = useState([]);
 
-    useEffect(() => {
-        axios.get('http://localhost:8080/api/ville/all')
-            .then(response => {
-                setOptions(response.data.map(item => ({ id: item.id, title: item.nom, firstLetter: item.nom.charAt(0).toUpperCase() })));
-            })
-            .catch(error => {
-                console.error(error);
-                setError(error);
-            });
-    }, []);
+  useEffect(() => {
+    axios.get('/api/ville/all')
+      .then(response => {
+        setCities(response.data.map(city => ({ id: city.id, name: city.nom })));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
-    if (error) {
-        return <div>An error occurred: {error.message}</div>;
+  const handleCityChange = (event, value) => {
+    setSelectedCity(value);
+    if (value) {
+      axios.get(`/api/zone/ville/${value.name}`)
+        .then(response => {
+          setZones(response.data.map(zone => ({ id: zone.id, name: zone.nom })));
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      setZones([]);
     }
+  };
 
-
-
-
-    const handleCityChange = (event, value) => {
-        setSelectedCity(value);
-        axios.get(`http://localhost:8080/api/zone/ville/${value.title}`)
-            .then(response => {
-                setZoneOptions(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
-
-    return (
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-
-            <Autocomplete
-                id="grouped-demo"
-                options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
-                groupBy={(option) => option.firstLetter}
-                getOptionLabel={(option) => option.title}
-                getOptionSelected={(option, value) => option.id === value.id} // compare the ID property
-                sx={{ width: 300, margin: '10px' }}
-                renderInput={(params) => <TextField {...params} label="Filter by cities" />}
-            />
-            <Autocomplete
-                sx={{ width: '300px', margin: '10px' }}
-                id="autocomplete2"
-                options={zoneOptions}
-                getOptionLabel={(option) => option.title}
-                renderInput={(params) => (
-                    <TextField {...params} label="Zone" variant="outlined" />
-                )}
-                disabled={!selectedCity}
-                onChange={(event, value) => handleCityChange(event, value)}
-            />
-        </div>
-    );
+  return (
+    <>
+    <div style={{ display: 'flex', flexWrap: 'wrap' ,marginTop:'10px',alignItems:'center'}}>
+         <Autocomplete
+        freeSolo
+        id="free-solo-2-demo"
+        sx={{ width: 500, margin: '15px' }}
+        disableClearable
+        options={top100Films.map((option) => option.title)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search input"
+            InputProps={{
+              ...params.InputProps,
+              type: 'search',
+            }}
+          />
+        )}
+      />
+      <Autocomplete
+        id="cities-autocomplete"
+        options={cities}
+        getOptionLabel={option => option.name}
+        value={selectedCity}
+        sx={{ width: 300, margin: '15px' }}
+        onChange={handleCityChange}
+        renderInput={params => (
+          <TextField {...params} label="Cities" variant="outlined" />
+        )}
+      />
+      <Autocomplete
+        id="zones-autocomplete"
+        options={zones}
+        sx={{ width: 300, margin: '15px' }}
+        getOptionLabel={option => option.name}
+        renderInput={params => (
+          <TextField {...params} label="Zones" variant="outlined" disabled={!selectedCity} />
+        )}
+      />
+     
+    </div>
+     <CardPharm/>
+     </>
+  );
 }
-
-
+const top100Films = [
+    { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },
+    { title: 'The Godfather: Part II', year: 1974 }]
