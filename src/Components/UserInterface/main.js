@@ -37,7 +37,9 @@ export default function Grouped() {
 
   return (
     <>
-    <div style={{ display: 'flex', flexWrap: 'wrap' ,marginTop:'10px',alignItems:'center'}}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px', justifyContent: 'center', alignItems: 'center' }}>
+
+
          <Autocomplete
         freeSolo
         id="free-solo-2-demo"
@@ -77,7 +79,7 @@ export default function Grouped() {
       />
      
     </div>
-     <CardPharm/>
+     <CardPharm selectedCity={selectedCity} />
      </>
   );
 }

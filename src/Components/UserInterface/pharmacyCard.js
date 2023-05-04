@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 
 
 
-export default function CardPharm() {
+export default function CardPharm({ selectedCity }) {
     const [pharmacies, setPharmacies] = useState([]);
 
     useEffect(() => {
@@ -20,30 +20,24 @@ export default function CardPharm() {
     }, []);
   
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap'}}>
-        {pharmacies.map((pharmacy) => (
-            <Box sx={{margin:'20px'}}>
-          <Card key={pharmacy.id} sx={{ maxWidth: 345,width:'300px' }}>
-            <CardHeader
-              title={pharmacy.nom}
-              subheader={pharmacy.adress}
-            />
-            <CardMedia
-              component="img"
-            
-              height="300"
-              image={pharmacy.image}
-              sx={{padding:2}}
-            />
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {pharmacy["Textes complets"]}
-              </Typography>
-            </CardContent>
-          </Card>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+      {pharmacies
+        .filter((pharmacy) => !selectedCity || pharmacy.adress.includes(selectedCity.name))
+        .map((pharmacy) => (
+          <Box sx={{ margin: '20px', width: '100%', maxWidth: '500px' }}>
+            <Card sx={{ width: '100%', border: 1, padding: 2 }}>
+              <CardHeader title={pharmacy.nom} subheader={pharmacy.adress}  />
+              <CardMedia component="img" height="250" image={pharmacy.image} />
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  {pharmacy['Textes complets']}
+                </Typography>
+              </CardContent>
+            </Card>
           </Box>
         ))}
-      </div>
+    </div>
+    
     );
   
 }
