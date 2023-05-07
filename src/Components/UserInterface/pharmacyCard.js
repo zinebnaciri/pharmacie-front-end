@@ -1,26 +1,24 @@
 import * as React from 'react';
-
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import { useState, useEffect } from "react";
 
-
-
 export default function CardPharm({ selectedCity }) {
-    const [pharmacies, setPharmacies] = useState([]);
+  const [pharmacies, setPharmacies] = useState([]);
 
-    useEffect(() => {
-      fetch("/api/pharmacie/all")
-        .then((response) => response.json())
-        .then((data) => setPharmacies(data));
-    }, []);
-  
-    return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+  useEffect(() => {
+    fetch("/api/pharmacie/all")
+      .then((response) => response.json())
+      .then((data) => setPharmacies(data));
+  }, []);
+
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
       {pharmacies
         .filter((pharmacy) => !selectedCity || pharmacy.adress.includes(selectedCity.name))
         .map((pharmacy) => (
@@ -32,12 +30,15 @@ export default function CardPharm({ selectedCity }) {
                 <Typography variant="body2" color="text.secondary">
                   {pharmacy['Textes complets']}
                 </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+                  <Button variant="contained" color="primary">
+                    View Detail
+                  </Button>
+                </Box>
               </CardContent>
             </Card>
           </Box>
         ))}
     </div>
-    
-    );
-  
+  );
 }

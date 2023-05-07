@@ -13,12 +13,12 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
+import { Link } from 'react-router-dom';
 
 
 
 
-
-const pages = ['Home','Add new Pharmacy', 'Contact Us'];
+const pages = ['Home', 'Contact Us', 'Admin'];
 const settings = ['Profile', 'Account', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -33,6 +33,7 @@ function ResponsiveAppBar() {
    };
 
    const handleCloseNavMenu = () => {
+      console.log("page")
       setAnchorElNav(null);
    };
 
@@ -49,8 +50,7 @@ function ResponsiveAppBar() {
                <Typography
                   variant="h6"
                   noWrap
-                  component="a"
-                  href="/"
+                  
                   sx={{
                      mr: 2,
                      display: { xs: 'none', md: 'flex' },
@@ -104,8 +104,8 @@ function ResponsiveAppBar() {
                <Typography
                   variant="h5"
                   noWrap
-                  component="a"
-                  href=""
+                 
+                 
                   sx={{
                      mr: 2,
                      display: { xs: 'flex', md: 'none' },
@@ -126,11 +126,14 @@ function ResponsiveAppBar() {
                         onClick={handleCloseNavMenu}
                         sx={{ my: 2, color: 'white', display: 'block' }}
                      >
-                        {page}
+                        <Link to={`/${page}`}   style={{ textDecoration: "none", color: "white" }} >
+
+                           {page}
+                        </Link>
                      </Button>
                   ))}
                </Box>
-            
+
                <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="Open settings">
                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
