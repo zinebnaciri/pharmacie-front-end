@@ -79,7 +79,7 @@ export default function Grouped() {
       />
      
     </div>
-     <CardPharm selectedCity={selectedCity} />
+     <CardPharm zones={setZones} />
      </>
   );
 }

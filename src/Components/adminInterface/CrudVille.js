@@ -8,9 +8,14 @@ import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { Container, Box, Grid, Typography, Button } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import VilleForm from './VilleForm';
+import ZoneForm from './ZoneForm';
 
 
 
@@ -68,7 +73,7 @@ export default function Crud() {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={6}>
-                        <Item sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'violet' }}>
+                        <Item sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'lightgreen' }}>
                             <Typography sx={{ marginRight: 'auto', color: 'white' }}>Liste des villes</Typography>
                             <Button sx={{ color: 'white', border: 1, borderRadius: '5px' }} onClick={handleOpen1}>
                                 <AddCircleOutlineIcon sx={{ marginRight: '5px' }} /> Add new
@@ -81,7 +86,7 @@ export default function Crud() {
                             >
                                 <Box sx={style}>
                                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                                        Text in a modal
+                                       <VilleForm/>
                                     </Typography>
 
                                 </Box>
@@ -94,6 +99,7 @@ export default function Crud() {
                                         <TableRow sx={{ bgcolor: 'lightgrey' }}>
                                             <TableCell sx={{ py: 0, lineHeight: '30px' }}>ID</TableCell>
                                             <TableCell sx={{ py: 0, lineHeight: '30px' }}>Nom</TableCell>
+                                            <TableCell sx={{ py: 0, lineHeight: '30px' }}>Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -101,6 +107,14 @@ export default function Crud() {
                                             <TableRow key={ville.id}>
                                                 <TableCell>{ville.id}</TableCell>
                                                 <TableCell>{ville.nom}</TableCell>
+                                                <TableCell>
+                                                    <IconButton>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                    <IconButton>
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -123,7 +137,7 @@ export default function Crud() {
                             >
                                 <Box sx={style}>
                                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                                        ZONE
+                                        <ZoneForm/>
                                     </Typography>
 
                                 </Box>
@@ -137,6 +151,7 @@ export default function Crud() {
                                             <TableCell sx={{ py: 0, lineHeight: '30px' }}>ID</TableCell>
                                             <TableCell sx={{ py: 0, lineHeight: '30px' }}>Nom</TableCell>
                                             <TableCell sx={{ py: 0, lineHeight: '30px' }}>Ville</TableCell>
+                                            <TableCell sx={{ py: 0, lineHeight: '30px' }}>Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -147,6 +162,14 @@ export default function Crud() {
                                                     <TableCell>{zone.id}</TableCell>
                                                     <TableCell>{zone.nom}</TableCell>
                                                     <TableCell>{zone.ville ? zone.ville.nom : ''}</TableCell>
+                                                    <TableCell>
+                                                    <IconButton>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                    <IconButton>
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
                                                 </TableRow>
                                             );
                                         })}
