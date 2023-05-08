@@ -33,8 +33,10 @@ export default function ZoneForm() {
     // Create the request payload using the selectedVille's id
     const payload = {
       nom: zoneNom,
-      ville_id: selectedVille.id, // Use the id property from selectedVille
-    };
+      ville:{
+        id : selectedVille.id, // Use the id property from selectedVille
+      }
+      } 
     console.log('Selected Ville:', selectedVille);
     console.log('Payload:', payload);
     axios

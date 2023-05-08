@@ -16,6 +16,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VilleForm from './VilleForm';
 import ZoneForm from './ZoneForm';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 
 
@@ -47,6 +52,18 @@ export default function Crud() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const [openD, setOpenD] = React.useState(false);
+    const handleClickOpenDelete = () => {
+        setOpenD(true);
+    };
+
+    const handleCloseDelete = () => {
+        setOpenD(false);
+    };
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  
 
     //FETCHING DATA IN TABLES FUNCTION
     const [villes, setVilles] = useState([]);
@@ -86,7 +103,7 @@ export default function Crud() {
                             >
                                 <Box sx={style}>
                                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                                       <VilleForm/>
+                                        <VilleForm />
                                     </Typography>
 
                                 </Box>
@@ -111,8 +128,29 @@ export default function Crud() {
                                                     <IconButton>
                                                         <EditIcon />
                                                     </IconButton>
-                                                    <IconButton>
-                                                        <DeleteIcon />
+                                                    <IconButton  onClick={handleClickOpenDelete}>
+                                                        <DeleteIcon>
+                                                           
+                                                            <Dialog
+                                                            fullScreen={fullScreen}
+                                                                open={openD}
+                                                                onClose={handleCloseDelete}
+                                                                aria-labelledby="responsive-dialog-title"
+                                                            >
+                                                                <DialogTitle id="responsive-dialog-title">
+                                                                    {"Are you sure you want to delete this city?"}
+                                                                </DialogTitle>
+
+                                                                <DialogActions>
+                                                                    <Button autoFocus onClick={handleCloseDelete}>
+                                                                        yes
+                                                                    </Button>
+                                                                    <Button onClick={handleCloseDelete} autoFocus>
+                                                                        cancek
+                                                                    </Button>
+                                                                </DialogActions>
+                                                            </Dialog>
+                                                        </DeleteIcon>
                                                     </IconButton>
                                                 </TableCell>
                                             </TableRow>
@@ -137,7 +175,7 @@ export default function Crud() {
                             >
                                 <Box sx={style}>
                                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                                        <ZoneForm/>
+                                        <ZoneForm />
                                     </Typography>
 
                                 </Box>
@@ -163,13 +201,13 @@ export default function Crud() {
                                                     <TableCell>{zone.nom}</TableCell>
                                                     <TableCell>{zone.ville ? zone.ville.nom : ''}</TableCell>
                                                     <TableCell>
-                                                    <IconButton>
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                    <IconButton>
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </TableCell>
+                                                        <IconButton>
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                        <IconButton>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </TableCell>
                                                 </TableRow>
                                             );
                                         })}
