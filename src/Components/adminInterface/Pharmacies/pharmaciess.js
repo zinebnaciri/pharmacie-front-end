@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
 import PublicIcon from "@mui/icons-material/Public";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -30,11 +29,9 @@ export default function Pharmacie() {
   //modal
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [setModalText] = useState("Content of the modal");
+
   const [form] = Form.useForm();
-  const [modalepharmacie, setPH_modal] = useState("");
-  const [modalegarde, setG_modal] = useState("");
-  const [selectedGarde_Ph, setSelectedGarde_Ph] = useState(null);
+
   const [fileList, setFileList] = useState("");
   const [fileModale, setFileModale] = useState(img);
   const [selectedPharmacie, setSelectedPharmacie] = useState(null);

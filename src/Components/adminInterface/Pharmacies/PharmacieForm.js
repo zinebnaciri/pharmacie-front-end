@@ -30,11 +30,16 @@ export default function PharmacyForm() {
   };
 
   const handleAddPharmacy = () => {
-    // Send a POST request to the API '/api/pharmacies/save' with the pharmacyInfo values
-    console.log(pharmacyInfo);
+    const updatedPharmacyInfo = {
+      ...pharmacyInfo,
+      image: file, // Use the file variable here
+    };
+  
+    // Send a POST request to the API '/api/pharmacies/save' with the updatedPharmacyInfo values
+    console.log(updatedPharmacyInfo);
     console.log(file);
     axios
-      .post('/api/pharmacie/save', pharmacyInfo)
+      .post('/api/pharmacie/save', updatedPharmacyInfo)
       .then((response) => {
         // Handle the successful response here
         console.log('Pharmacy added successfully:', response.data);
@@ -46,7 +51,6 @@ export default function PharmacyForm() {
           adress: '',
           image: '',
         });
-        
       })
       .catch((error) => {
         // Handle any errors that occur during the request
