@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,28 +8,58 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { accountService } from './AccountService';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const theme = createTheme();
 
 export default function SignIn() {
     const navigate = useNavigate();
-const onSubmit = (e) => {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    try{
-      accountService.login(data.get("email"),data.get("password"))
-      .then(res => {
-          accountService.saveToken(res.data.access_token)
-          navigate('/app', {replace: true})
-      })
-    }catch(error){
-    console.log(error)
-    } 
-}
-   
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    
+        // Make a POST request to the login API endpoint using Axios
+        axios
+            .post('api/auth/login', { email, password })
+            .then((response) => {
+                const data = response.data;
+                console.log('Login response:', data);
+                // Handle the response from the API
+                if (response.status === 200) {
+                    console.log('Login successful!');
+                    // Extract the access token and refresh token from the response
+                    const { access_token, refresh_token } = data;
+    
+                    // Store the tokens in local storage or any other secure storage mechanism
+                    // Example:
+                    localStorage.setItem('access_token', access_token);
+                    localStorage.setItem('refresh_token', refresh_token);
+    
+                    // Redirect the user to the dashboard or desired page
+                    navigate('/Home');
+                } else {
+                    console.log('Login failed!');
+                    // Handle login error, show error message, etc.
+                }
+            })
+            .catch((error) => {
+                console.error('Login error:', error);
+                // Handle error, show error message, etc.
+            });
+    };
+    
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -48,7 +78,7 @@ const onSubmit = (e) => {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
                         <TextField
                             margin="normal"
                             required
@@ -58,6 +88,8 @@ const onSubmit = (e) => {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            value={email}
+                            onChange={handleEmailChange}
                         />
                         <TextField
                             margin="normal"
@@ -68,8 +100,10 @@ const onSubmit = (e) => {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            value={password}
+                            onChange={handlePasswordChange}
                         />
-                       
+
                         <Button
                             type="submit"
                             fullWidth
@@ -78,10 +112,8 @@ const onSubmit = (e) => {
                         >
                             Sign In
                         </Button>
-                        
                     </Box>
                 </Box>
-
             </Container>
         </ThemeProvider>
     );

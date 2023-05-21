@@ -14,7 +14,7 @@ const handleVilleNomChange = (event) => {
 };
 
 const handleAddVille = () => {
-  // Send a POST request to the API '/api/ville/save' with the villeNom value
+
   axios
     .post('/api/ville/save', { nom: villeNom })
     .then((response) => {
@@ -22,6 +22,7 @@ const handleAddVille = () => {
       console.log('Ville added successfully:', response.data);
       // Reset the form field
       setVilleNom('');
+      
     })
     .catch((error) => {
       // Handle any errors that occur during the request

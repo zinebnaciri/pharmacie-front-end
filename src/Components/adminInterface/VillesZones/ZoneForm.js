@@ -44,6 +44,7 @@ export default function ZoneForm() {
       .then((response) => {
         console.log('Zone added successfully:', response.data);
         setZoneNom('');
+        setSelectedVille('');
       })
       .catch((error) => {
         console.error('Error adding zone:', error);

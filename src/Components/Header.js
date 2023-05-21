@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 
 
 
-const pages = ['Home', 'Contact Us', 'AddVilles','addUsers','AddPharmacies','pharmaciesAnas'];
+const pages = ['Home',  'AddVilles',,'AddPharmacies'];
 const settings = ['Profile', 'Account', 'Logout'];
 
 function ResponsiveAppBar() {

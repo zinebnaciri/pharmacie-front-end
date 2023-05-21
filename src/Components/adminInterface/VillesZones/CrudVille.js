@@ -46,12 +46,18 @@ const style = {
 
 export default function Crud() {
     //MODAL CONSTS
+    
     const [open1, setOpen1] = React.useState(false);
     const handleOpen1 = () => setOpen1(true);
-    const handleClose1 = () => setOpen1(false);
+    const handleClose1 = () => {
+        setOpen1(false);
+        setRefreshTables(true);
+      };
+      
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {setOpen(false);setRefreshTables(true);}
+    const [refreshTables, setRefreshTables] = useState(false);
 
     const [openD, setOpenD] = React.useState(false);
     const handleClickOpenDelete = () => {
@@ -78,11 +84,12 @@ export default function Crud() {
             .then(axios.spread((villesResponse, zonesResponse) => {
                 setVilles(villesResponse.data);
                 setZones(zonesResponse.data);
+                setRefreshTables(false);
             }))
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, [refreshTables]);
 
     return (
         <Container sx={{ marginTop: '20px' }}>
