@@ -4,7 +4,8 @@ import TextField from '@mui/material/TextField';
 import { Autocomplete } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function ZoneForm() {
   const [zoneNom, setZoneNom] = useState('');
   const [selectedVille, setSelectedVille] = useState(null);
@@ -42,7 +43,7 @@ export default function ZoneForm() {
       axios
         .post('/api/zone/save', payload)
         .then((response) => {
-          console.log('Zone added successfully:', response.data);
+          toast.success('Zone added successfully:', response.data);
           setZoneNom('');
           setSelectedVille('');
         })
@@ -82,6 +83,7 @@ export default function ZoneForm() {
 
       <TextField id="outlined-basic" label="Nom" variant="outlined" value={zoneNom} onChange={handleZoneNomChange} />
       <Button variant="contained" onClick={handleAddZone}>Add</Button>
+      <ToastContainer />
     </Box>
   );
 }

@@ -19,8 +19,6 @@ import ZoneForm from './ZoneForm';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -61,19 +59,18 @@ export default function Crud() {
     const handleClose = () => { setOpen(false); setRefreshTables(true); }
     const [refreshTables, setRefreshTables] = useState(false);
 
-    const [openD, setOpenD] = React.useState(false);
-    const handleClickOpenDelete = (item) => {
+
+    const handleOpenDeleteDialog = (item) => {
         setSelectedItem(item);
-        setOpenD(true);
+        setOpenDeleteDialog(true);
+    };
+
+    const handleCloseDeleteDialog = () => {
+        setOpenDeleteDialog(false);
     };
 
 
-    const handleCloseDelete = () => {
-        setOpenD(false);
-    };
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     //FETCHING DATA IN TABLES FUNCTION
     const [villes, setVilles] = useState([]);
@@ -95,37 +92,38 @@ export default function Crud() {
             });
     }, [refreshTables]);
     const handleDeleteZone = () => {
-        if (selectedItem) {
-            // Perform delete request for zone using axios
+        if (selectedItem && selectedItem.type === 'zone') {
             axios
                 .delete(`/api/zone/delete/${selectedItem.id}`)
                 .then(() => {
                     setRefreshTables(true);
                     setSelectedItem(null);
-                    handleCloseDelete();
-                    toast.success('zone deleted succesfully');
+                    setOpenDeleteDialog(false);
+                    toast.success('Zone deleted successfully');
                 })
                 .catch(error => {
-                    toast.error('you can not delete this zone one or more pharmacies exist in this zone');
+                    toast.error('One or more pharmacies exist in this zone you can not delete it');
                 });
         }
     };
-    const handleDelete = () => {
-        if (selectedItem) {
-            // Perform delete request using axios
+
+    const handleDeleteVille = () => {
+        if (selectedItem && selectedItem.type === 'ville') {
             axios
                 .delete(`/api/ville/delete/${selectedItem.id}`)
                 .then(() => {
                     setRefreshTables(true);
                     setSelectedItem(null);
-                    handleCloseDelete();
-                    toast.success('city deleted succesfully');
+                    setOpenDeleteDialog(false);
+                    toast.success('City deleted successfully');
                 })
                 .catch(error => {
-                    toast.error('you can not delete this city one or more pharmacies exist in this zones of this city');
+                    toast.error('One or more pharmacies exist in one of this city zones you can not delete it');
                 });
         }
     };
+
+
 
 
     return (
@@ -173,29 +171,13 @@ export default function Crud() {
                                                     <IconButton>
                                                         <EditIcon />
                                                     </IconButton>
-                                                    <IconButton onClick={() => handleClickOpenDelete({ type: 'ville', id: ville.id })}>
+                                                    <IconButton
+                                                        color="error"
+                                                        aria-label="delete"
+                                                        onClick={() => handleOpenDeleteDialog({ type: 'ville', id: ville.id })}
+                                                    >
                                                         <DeleteIcon />
                                                     </IconButton>
-
-                                                    <Dialog
-                                                        fullScreen={fullScreen}
-                                                        open={openD}
-                                                        onClose={handleCloseDelete}
-                                                        aria-labelledby="responsive-dialog-title"
-                                                    >
-                                                        <DialogTitle id="responsive-dialog-title">
-                                                            {"Are you sure you want to delete this item?"}
-                                                        </DialogTitle>
-                                                        <DialogActions>
-                                                            <Button autoFocus onClick={handleDelete}>
-                                                                Yes
-                                                            </Button>
-                                                            <Button onClick={handleCloseDelete} autoFocus>
-                                                                Cancel
-                                                            </Button>
-                                                        </DialogActions>
-                                                    </Dialog>
-
 
                                                 </TableCell>
                                             </TableRow>
@@ -249,27 +231,14 @@ export default function Crud() {
                                                         <IconButton>
                                                             <EditIcon />
                                                         </IconButton>
-                                                        <IconButton onClick={() => handleClickOpenDelete({ type: 'zone', id: zone.id })}>
+                                                        <IconButton
+                                                            color="error"
+                                                            aria-label="delete"
+                                                            onClick={() => handleOpenDeleteDialog({ type: 'zone', id: zone.id })}
+                                                        >
                                                             <DeleteIcon />
                                                         </IconButton>
-                                                        <Dialog
-                                                            fullScreen={fullScreen}
-                                                            open={openD}
-                                                            onClose={handleCloseDelete}
-                                                            aria-labelledby="responsive-dialog-title"
-                                                        >
-                                                            <DialogTitle id="responsive-dialog-title">
-                                                                {"Are you sure you want to delete this item?"}
-                                                            </DialogTitle>
-                                                            <DialogActions>
-                                                                <Button autoFocus onClick={handleDeleteZone}>
-                                                                    Yes
-                                                                </Button>
-                                                                <Button onClick={handleCloseDelete} autoFocus>
-                                                                    Cancel
-                                                                </Button>
-                                                            </DialogActions>
-                                                        </Dialog>
+
                                                     </TableCell>
                                                 </TableRow>
                                             );
@@ -284,6 +253,29 @@ export default function Crud() {
 
                 </Grid>
             </Box>
+            <Modal
+                open={openDeleteDialog}
+                onClose={handleCloseDeleteDialog}
+                aria-labelledby="delete-dialog-title"
+                aria-describedby="delete-dialog-description"
+            >
+                <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog} sx={style}>
+                    <DialogTitle>Delete Confirmation</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+                        {selectedItem && selectedItem.type === 'ville' && (
+                            <Button onClick={handleDeleteVille} autoFocus>
+                                Delete City
+                            </Button>
+                        )}
+                        {selectedItem && selectedItem.type === 'zone' && (
+                            <Button onClick={handleDeleteZone} autoFocus>
+                                Delete Zone
+                            </Button>
+                        )}
+                    </DialogActions>
+                </Dialog>
+            </Modal>
         </Container >
 
 

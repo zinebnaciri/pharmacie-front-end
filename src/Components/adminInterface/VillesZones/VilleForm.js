@@ -4,7 +4,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function VilleForm() {
   const [villeNom, setVilleNom] = useState('');
@@ -19,7 +20,7 @@ export default function VilleForm() {
       .post('/api/ville/save', { nom: villeNom })
       .then((response) => {
         // Handle the successful response here
-        console.log('Ville added successfully:', response.data);
+        toast.success('Ville added successfully');
         // Reset the form field
         setVilleNom('');
 
@@ -44,6 +45,7 @@ export default function VilleForm() {
     >
       <TextField id="outlined-basic" label="Nom" variant="outlined" value={villeNom} onChange={handleVilleNomChange} />
       <Button variant="contained" onClick={handleAddVille}>Add</Button>
+      <ToastContainer />
     </Box>
 
   );

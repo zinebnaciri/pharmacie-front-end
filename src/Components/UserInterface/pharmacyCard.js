@@ -101,7 +101,7 @@ export default function CardPharm({ searchText, selectedZone }) {
                       height="400"
                       frameBorder="0"
                       style={{ border: 0 }}
-                      src={`https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12793.896958305925!2d${selectedPharmacy.longitude}!3d${selectedPharmacy.latitude}!3m2!1i1024!2i768!4f13.1!4m3!3e6!4m0!4m0!5e0!3m2!1sen!2sus!4v1629418642530!5m2!1sen!2sus`}
+                      src={`https://maps.google.com/maps?q=${selectedPharmacy.latitude},${selectedPharmacy.longitude}&hl=es;&output=embed`}
                       allowFullScreen
                     ></iframe>
                   </div>
