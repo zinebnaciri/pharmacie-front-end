@@ -4,11 +4,13 @@ import Autocomplete from '@mui/material/Autocomplete';
 import axios from 'axios';
 import CardPharm from './pharmacyCard';
 
+
 export default function Grouped() {
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
   const [zones, setZones] = useState([]);
-
+  const [searchText, setSearchText] = useState('');
+  const [selectedZone, setSelectedZone] = useState(null);
   useEffect(() => {
     const accessToken = localStorage.getItem('access_token');
 
@@ -27,6 +29,7 @@ export default function Grouped() {
 
   const handleCityChange = (event, value) => {
     setSelectedCity(value);
+    setSearchText('');
     if (value) {
       const accessToken = localStorage.getItem('access_token');
       axios.get(`/api/zone/ville/${value.name}`, {
@@ -44,26 +47,21 @@ export default function Grouped() {
       setZones([]);
     }
   };
+  const handleZoneChange = (event, value) => {
+    setSelectedZone(value);
+  };
+  const handleSearchChange = (event) => {
+    setSearchText(event.target.value);
+  };
 
   return (
     <>
       <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px', justifyContent: 'center', alignItems: 'center' }}>
-        <Autocomplete
-          freeSolo
-          id="free-solo-2-demo"
+        <TextField
+          label="Search by pharmacy"
+          value={searchText}
+          onChange={handleSearchChange}
           sx={{ width: 500, margin: '15px' }}
-          disableClearable
-          options={top100Films.map((option) => option.title)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Search input"
-              InputProps={{
-                ...params.InputProps,
-                type: 'search',
-              }}
-            />
-          )}
         />
         <Autocomplete
           id="cities-autocomplete"
@@ -81,18 +79,14 @@ export default function Grouped() {
           options={zones}
           sx={{ width: 300, margin: '15px' }}
           getOptionLabel={option => option.name}
+          onChange={handleZoneChange}
           renderInput={params => (
             <TextField {...params} label="Zones" variant="outlined" disabled={!selectedCity} />
           )}
         />
       </div>
-      <CardPharm zones={setZones} />
+      <CardPharm searchText={searchText} selectedZone={selectedZone} />
+     
     </>
   );
 }
-
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 }
-];

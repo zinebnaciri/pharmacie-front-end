@@ -9,7 +9,7 @@ export default function ZoneForm() {
   const [zoneNom, setZoneNom] = useState('');
   const [selectedVille, setSelectedVille] = useState(null);
   const [villes, setVilles] = useState([]);
-  
+
 
 
   useEffect(() => {
@@ -30,30 +30,30 @@ export default function ZoneForm() {
 
   const handleAddZone = () => {
     if (selectedVille) {
-    // Create the request payload using the selectedVille's id
-    const payload = {
-      nom: zoneNom,
-      ville:{
-        id : selectedVille.id, // Use the id property from selectedVille
+      // Create the request payload using the selectedVille's id
+      const payload = {
+        nom: zoneNom,
+        ville: {
+          id: selectedVille.id, // Use the id property from selectedVille
+        }
       }
-      } 
-    console.log('Selected Ville:', selectedVille);
-    console.log('Payload:', payload);
-    axios
-      .post('/api/zone/save', payload)
-      .then((response) => {
-        console.log('Zone added successfully:', response.data);
-        setZoneNom('');
-        setSelectedVille('');
-      })
-      .catch((error) => {
-        console.error('Error adding zone:', error);
-      });
+      console.log('Selected Ville:', selectedVille);
+      console.log('Payload:', payload);
+      axios
+        .post('/api/zone/save', payload)
+        .then((response) => {
+          console.log('Zone added successfully:', response.data);
+          setZoneNom('');
+          setSelectedVille('');
+        })
+        .catch((error) => {
+          console.error('Error adding zone:', error);
+        });
     } else {
       console.error('No ville selected');
     }
   };
-  
+
 
   return (
     <Box
@@ -68,16 +68,16 @@ export default function ZoneForm() {
       autoComplete="off"
     >
       <Autocomplete
-  options={villes}
-  getOptionLabel={(ville) => ville.nom}
-  onChange={(event, newValue) => {
-    setSelectedVille(newValue);
-    console.log('Selected Ville:', newValue);
-  }}
-  renderInput={(params) => (
-    <TextField {...params} label="Ville" variant="outlined" />
-  )}
-/>
+        options={villes}
+        getOptionLabel={(ville) => ville.nom}
+        onChange={(event, newValue) => {
+          setSelectedVille(newValue);
+          console.log('Selected Ville:', newValue);
+        }}
+        renderInput={(params) => (
+          <TextField {...params} label="Ville" variant="outlined" />
+        )}
+      />
 
 
       <TextField id="outlined-basic" label="Nom" variant="outlined" value={zoneNom} onChange={handleZoneNomChange} />

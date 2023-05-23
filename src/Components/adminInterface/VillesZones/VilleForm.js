@@ -7,44 +7,44 @@ import axios from 'axios';
 
 
 export default function VilleForm() {
-    const [villeNom, setVilleNom] = useState('');
+  const [villeNom, setVilleNom] = useState('');
 
-const handleVilleNomChange = (event) => {
-  setVilleNom(event.target.value);
-};
+  const handleVilleNomChange = (event) => {
+    setVilleNom(event.target.value);
+  };
 
-const handleAddVille = () => {
+  const handleAddVille = () => {
 
-  axios
-    .post('/api/ville/save', { nom: villeNom })
-    .then((response) => {
-      // Handle the successful response here
-      console.log('Ville added successfully:', response.data);
-      // Reset the form field
-      setVilleNom('');
-      
-    })
-    .catch((error) => {
-      // Handle any errors that occur during the request
-      console.error('Error adding ville:', error);
-    });
-};
+    axios
+      .post('/api/ville/save', { nom: villeNom })
+      .then((response) => {
+        // Handle the successful response here
+        console.log('Ville added successfully:', response.data);
+        // Reset the form field
+        setVilleNom('');
 
-    return (
-        <Box
-            component="form"
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                '& > :not(style)': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete="off"
-        >
-            <TextField id="outlined-basic" label="Nom" variant="outlined" value={villeNom} onChange={handleVilleNomChange} />
-            <Button variant="contained" onClick={handleAddVille}>Add</Button>
-        </Box>
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.error('Error adding ville:', error);
+      });
+  };
 
-    );
+  return (
+    <Box
+      component="form"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        '& > :not(style)': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <TextField id="outlined-basic" label="Nom" variant="outlined" value={villeNom} onChange={handleVilleNomChange} />
+      <Button variant="contained" onClick={handleAddVille}>Add</Button>
+    </Box>
+
+  );
 }

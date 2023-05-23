@@ -101,6 +101,10 @@ export default function PharmacyForm() {
         display: 'flex',
         alignItems: 'center',
         '& > :not(style)': { m: 1, width: '70ch' },
+        border:'10px',
+        borderColor:'black',
+        borderStyle:''
+      
       }}
       noValidate
       autoComplete="off"
