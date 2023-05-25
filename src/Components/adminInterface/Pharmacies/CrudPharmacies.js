@@ -7,15 +7,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import { Container, Box, Grid, Typography, Button} from '@mui/material';
-
+import { Container, Box, Grid, Typography, Button, IconButton } from '@mui/material';
 import axios from 'axios';
-
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-
 import PharmacyForm from './PharmacieForm';
-import { Modal } from 'antd';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -62,7 +60,7 @@ export default function CrudPharmacy() {
     p: 4,
   };
 
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,7 +83,7 @@ export default function CrudPharmacy() {
     const zone = zones.find((zone) => zone.id === zoneId);
     return zone ? zone.nom : '';
   };
-  
+
 
   return (
     <Container sx={{ marginTop: '20px' }}>
@@ -121,7 +119,14 @@ export default function CrudPharmacy() {
                         <TableCell>{pharmacy.latitude}</TableCell>
                         <TableCell>{pharmacy.longitude}</TableCell>
                         <TableCell>{getZoneName(pharmacy.zone.id)}</TableCell>
-                     
+                        <TableCell>
+                          <IconButton>
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton>
+                          <DeleteIcon />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

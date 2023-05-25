@@ -70,12 +70,12 @@ export default function CardPharm({ searchText, selectedZone }) {
         .map((pharmacy) => (
           <Box sx={{ margin: '20px', width: '100%', maxWidth: '500px' }} key={pharmacy.id}>
             <Card sx={{ width: '100%', border: 1, padding: 2 }}>
-              <CardHeader title={"Pharmacy name: " + pharmacy.nom} />
+              <CardHeader title={pharmacy.nom} />
               <Typography variant="body2" color="text.secondary" sx={{ margin: '10px' }}>
                 Address: {pharmacy.adress}
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ margin: '10px' }}>
-                Zone: {getZoneName(pharmacy.zone.id)}
+                Located in: {getZoneName(pharmacy.zone.id)}
               </Typography>
               <CardMedia component="img" height="250" image={pharmacy.image} />
               <CardContent>

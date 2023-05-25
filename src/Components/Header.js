@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,11 +14,8 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import { Link } from 'react-router-dom';
 
-
-
-
-const pages = ['Home',  'AddVilles',,'AddPharmacies'];
-const settings = ['Profile', 'Account', 'Logout'];
+const pages = ['Home',  'Cities',,'Pharmacies'];
+const settings = ['Logout'];
 
 function ResponsiveAppBar() {
    const [anchorElNav, setAnchorElNav] = React.useState(null);
