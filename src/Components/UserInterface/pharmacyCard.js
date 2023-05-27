@@ -13,6 +13,8 @@ export default function CardPharm({ searchText, selectedZone }) {
   const [pharmacies, setPharmacies] = useState([]);
   const [zones, setZones] = useState([]);
   const [selectedPharmacy, setSelectedPharmacy] = useState(null);
+  const [enlargedImage, setEnlargedImage] = useState(null);
+
 
   useEffect(() => {
     fetch("/api/pharmacie/all")
@@ -32,7 +34,10 @@ export default function CardPharm({ searchText, selectedZone }) {
   const handleMapButtonClick = (pharmacy) => {
     setSelectedPharmacy(pharmacy);
   };
-
+  const handleImageClick = (image) => {
+    setEnlargedImage(image);
+  };
+  
   const CustomModal = styled(Modal)`
     display: flex;
     align-items: center;
@@ -94,7 +99,7 @@ export default function CardPharm({ searchText, selectedZone }) {
                 {selectedPharmacy && (
                   <div>
                     <h2>Map of {selectedPharmacy.nom}</h2>
-                  
+
                     <iframe
                       title="Google Maps"
                       width="100%"

@@ -113,7 +113,7 @@ export default function PharmacyForm() {
       <TextField
         id="outlined-nom"
         name="nom"
-        label="Nom"
+        label="Name"
         variant="outlined"
         value={pharmacyInfo.nom}
         onChange={handleInputChange}

@@ -232,8 +232,8 @@ export default function Crud() {
                                     <TableHead>
                                         <TableRow sx={{ bgcolor: 'grey' }}>
                                             <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>ID</TableCell>
-                                            <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>Name</TableCell>
                                             <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>City</TableCell>
+                                            <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>Zone Name</TableCell>
                                             <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>Action</TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -243,8 +243,9 @@ export default function Crud() {
                                             return (
                                                 <TableRow key={zone.id}>
                                                     <TableCell>{zone.id}</TableCell>
-                                                    <TableCell>{zone.nom}</TableCell>
                                                     <TableCell>{zone.ville ? zone.ville.nom : ''}</TableCell>
+                                                    <TableCell>{zone.nom}</TableCell>
+                                                    
                                                     <TableCell>
                                                         <IconButton color="primary.main" onClick={() => handleOpenEditModalZ(zone)}>
                                                             <EditIcon />
@@ -271,48 +272,45 @@ export default function Crud() {
 
                 </Grid>
             </Box>
-            <Modal
-                open={openDeleteDialog}
-                onClose={handleCloseDeleteDialog}
-                aria-labelledby="delete-dialog-title"
-                aria-describedby="delete-dialog-description"
-            >
+          
                 <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog} sx={style}>
                     <DialogTitle>Delete Confirmation</DialogTitle>
-                    <DialogActions>
-                        <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+                    <DialogContent>Are you sure  you want to delete this record ?</DialogContent>
+                    <DialogActions style={{ backgroundColor: 'black' }}>
+                        <Button sx={{color:'white'}} onClick={handleCloseDeleteDialog}>Cancel</Button>
                         {selectedItem && selectedItem.type === 'ville' && (
-                            <Button onClick={handleDeleteVille} autoFocus>
+                            <Button sx={{color:'white'}} onClick={handleDeleteVille} autoFocus>
                                 Delete City
                             </Button>
                         )}
                         {selectedItem && selectedItem.type === 'zone' && (
-                            <Button onClick={handleDeleteZone} autoFocus>
+                            <Button sx={{color:'white'}} onClick={handleDeleteZone} autoFocus>
                                 Delete Zone
                             </Button>
                         )}
                     </DialogActions>
                 </Dialog>
-            </Modal>
+        
             <Dialog open={editModalOpen} onClose={() => setEditModalOpen(false)}>
-                <DialogTitle>Edit Zone</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        id="edit-zone-name"
-                        label="Zone Name"
-                        variant="outlined"
-                        fullWidth
-                        value={editedZoneName}
-                        onChange={(e) => setEditedZoneName(e.target.value)}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setEditModalOpen(false)}>Cancel</Button>
-                    <Button onClick={handleEditZoneName} color="primary">
-                        Save
-                    </Button>
-                </DialogActions>
-            </Dialog>
+ 
+  <DialogContent>
+    <TextField
+      id="edit-zone-name"
+      label="Zone Name"
+      variant="outlined"
+      fullWidth
+      value={editedZoneName}
+      onChange={(e) => setEditedZoneName(e.target.value)}
+    />
+  </DialogContent>
+  <DialogActions style={{ backgroundColor: 'black' }}>
+    <Button sx={{color:'white'}} onClick={() => setEditModalOpen(false)}>Cancel</Button>
+    <Button sx={{color:'white'}} onClick={handleEditZoneName} color="primary">
+      Save
+    </Button>
+  </DialogActions>
+</Dialog>
+
 
 
         </Container >

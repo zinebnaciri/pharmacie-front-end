@@ -14,7 +14,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Link } from 'react-router-dom';
 
-const pages = ['Home', 'Cities', 'Pharmacies'];
+const pages = ['Home', 'Cities', 'Pharmacies', 'Support'];
 const settings = ['Logout'];
 
 function ResponsiveAppBar() {

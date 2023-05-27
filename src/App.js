@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import Crud from './Components/adminInterface/VillesZones/CrudVille';
 import CrudPharmacy from './Components/adminInterface/Pharmacies/CrudPharmacies';
 import SignIn from './Components/adminInterface/Users/loginForm';
+import Contact from './Components/contact';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
       <Route path="/Home" element={<Grouped />} />
       <Route path="/Cities" element={<Crud />} />
       <Route path="/Pharmacies" element={<CrudPharmacy />} />
+      <Route path="/Support" element={<Contact />} />
     
     </Routes>
   
