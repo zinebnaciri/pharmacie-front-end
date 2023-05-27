@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import { Container, Box, Grid, Typography, Button, IconButton } from '@mui/material';
+import { Container, Box, Grid, Typography, IconButton } from '@mui/material';
 import axios from 'axios';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -48,18 +48,7 @@ export default function CrudPharmacy() {
   const [zones, setZones] = useState([]);
   const [selectedZone, setSelectedZone] = useState(null);
   const [allZones, setAllZones] = useState([]);
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,6 +72,16 @@ export default function CrudPharmacy() {
     const zone = zones.find((zone) => zone.id === zoneId);
     return zone ? zone.nom : '';
   };
+  const deletePharmacy = async (pharmacyId) => {
+    try {
+      await axios.delete(`/api/pharmacie/delete/${pharmacyId}`);
+      // Fetch updated data for pharmacies after deletion
+      const pharmaciesResponse = await axios.get('/api/pharmacie/all');
+      setPharmacies(pharmaciesResponse.data);
+    } catch (error) {
+      console.error('Error deleting pharmacy:', error);
+    }
+  };
 
 
   return (
@@ -93,21 +92,21 @@ export default function CrudPharmacy() {
             <PharmacyForm />
           </Grid>
           <Grid item lg={12} xs={10}>
-            <Item sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'lightgreen' }}>
+            <Item sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'black' }}>
               <Typography sx={{ marginRight: 'auto', color: 'white' }}>Liste des Pharmacies</Typography>
             </Item>
             <Box sx={{ margin: '16px 0' }}>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 400 }} aria-label="simple table">
                   <TableHead>
-                    <TableRow sx={{ bgcolor: 'lightgrey' }}>
-                      <TableCell sx={{ py: 0, lineHeight: '30px' }}>ID</TableCell>
-                      <TableCell sx={{ py: 0, lineHeight: '30px' }}>Nom</TableCell>
-                      <TableCell sx={{ py: 0, lineHeight: '30px' }}>Adresse</TableCell>
-                      <TableCell sx={{ py: 0, lineHeight: '30px' }}>Latitude</TableCell>
-                      <TableCell sx={{ py: 0, lineHeight: '30px' }}>Longitude</TableCell>
-                      <TableCell sx={{ py: 0, lineHeight: '30px' }}>Zone</TableCell>
-                      <TableCell sx={{ py: 0, lineHeight: '30px' }}>Action</TableCell>
+                    <TableRow sx={{ bgcolor: 'grey' }}>
+                      <TableCell sx={{ py: 0, lineHeight: '40px',color:'white' }}>ID</TableCell>
+                      <TableCell sx={{ py: 0, lineHeight: '40px',color:'white' }}>Name</TableCell>
+                      <TableCell sx={{ py: 0, lineHeight: '40px' ,color:'white'}}>Address</TableCell>
+                      <TableCell sx={{ py: 0, lineHeight: '40px',color:'white' }}>Latitude</TableCell>
+                      <TableCell sx={{ py: 0, lineHeight: '40px',color:'white' }}>Longitude</TableCell>
+                      <TableCell sx={{ py: 0, lineHeight: '40px' ,color:'white'}}>Zone</TableCell>
+                      <TableCell sx={{ py: 0, lineHeight: '40px',color:'white' }}>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -124,7 +123,7 @@ export default function CrudPharmacy() {
                             <EditIcon />
                           </IconButton>
                           <IconButton>
-                          <DeleteIcon />
+                            <DeleteIcon onClick={() => deletePharmacy(pharmacy.id)} />
                           </IconButton>
                         </TableCell>
                       </TableRow>

@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import { Container, Box, Grid, Typography, Button } from '@mui/material';
+import { Container, Box, Grid, Typography, Button, DialogContent, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Modal from '@mui/material/Modal';
@@ -20,8 +20,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ToastContainer, toast } from 'react-toastify';
-
-
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -59,6 +57,9 @@ export default function Crud() {
     const handleClose = () => { setOpen(false); setRefreshTables(true); }
     const [refreshTables, setRefreshTables] = useState(false);
 
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [selectedZone, setSelectedZone] = useState(null);
+    const [editedZoneName, setEditedZoneName] = useState('');
 
     const handleOpenDeleteDialog = (item) => {
         setSelectedItem(item);
@@ -72,11 +73,11 @@ export default function Crud() {
 
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-    //FETCHING DATA IN TABLES FUNCTION
+
     const [villes, setVilles] = useState([]);
     const [zones, setZones] = useState([]);
     useEffect(() => {
-        // Fetch data for villes and zones from Spring API using Axios
+        
         axios
             .all([
                 axios.get('/api/ville/all'),
@@ -124,6 +125,25 @@ export default function Crud() {
     };
 
 
+    const handleOpenEditModalZ = (zone) => {
+        setSelectedZone(zone);
+        setEditedZoneName(zone.nom);
+        setEditModalOpen(true);
+    };
+
+    const handleEditZoneName = () => {
+        axios
+            .put(`/api/zone/update/${selectedZone.id}`, { nom: editedZoneName })
+            .then(() => {
+                setRefreshTables(true);
+                setEditModalOpen(false);
+                toast.success('Zone name updated successfully!', 'Success');
+            })
+            .catch((error) => {
+                console.error('Error updating zone name:', error);
+                toast.error('Failed to update zone name', 'Error');
+            });
+    };
 
 
     return (
@@ -133,8 +153,8 @@ export default function Crud() {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={6}>
-                        <Item sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'lightgreen' }}>
-                            <Typography sx={{ marginRight: 'auto', color: 'white' }}>Liste des villes</Typography>
+                        <Item sx={{ display: 'flex', alignItems: 'center', bgcolor: 'black' }}>
+                            <Typography sx={{ marginRight: 'auto', color: 'white' }}>Cities List : </Typography>
                             <Button sx={{ color: 'white', border: 1, borderRadius: '5px' }} onClick={handleOpen1}>
                                 <AddCircleOutlineIcon sx={{ marginRight: '5px' }} /> Add new
                             </Button>
@@ -156,10 +176,10 @@ export default function Crud() {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 400 }} aria-label="simple table">
                                     <TableHead>
-                                        <TableRow sx={{ bgcolor: 'lightgrey' }}>
-                                            <TableCell sx={{ py: 0, lineHeight: '30px' }}>ID</TableCell>
-                                            <TableCell sx={{ py: 0, lineHeight: '30px' }}>Nom</TableCell>
-                                            <TableCell sx={{ py: 0, lineHeight: '30px' }}>Action</TableCell>
+                                        <TableRow sx={{ bgcolor: 'grey' }}>
+                                            <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>ID</TableCell>
+                                            <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>Name</TableCell>
+                                            <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -168,9 +188,7 @@ export default function Crud() {
                                                 <TableCell>{ville.id}</TableCell>
                                                 <TableCell>{ville.nom}</TableCell>
                                                 <TableCell>
-                                                    <IconButton>
-                                                        <EditIcon />
-                                                    </IconButton>
+
                                                     <IconButton
                                                         color="error"
                                                         aria-label="delete"
@@ -189,8 +207,8 @@ export default function Crud() {
                     </Grid>
 
                     <Grid item xs={6}>
-                        <Item sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'purple' }}>
-                            <Typography sx={{ marginRight: 'auto', color: 'white' }}>Liste des zones</Typography>
+                        <Item sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'black' }}>
+                            <Typography sx={{ marginRight: 'auto', color: 'white' }}>Zones List : </Typography>
                             <Button sx={{ color: 'white', border: 1, borderRadius: '5px' }} onClick={handleOpen}>
                                 <AddCircleOutlineIcon sx={{ marginRight: '5px' }} /> Add new
                             </Button>
@@ -212,11 +230,11 @@ export default function Crud() {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 400 }} aria-label="simple table">
                                     <TableHead>
-                                        <TableRow sx={{ bgcolor: 'lightgrey' }}>
-                                            <TableCell sx={{ py: 0, lineHeight: '30px' }}>ID</TableCell>
-                                            <TableCell sx={{ py: 0, lineHeight: '30px' }}>Nom</TableCell>
-                                            <TableCell sx={{ py: 0, lineHeight: '30px' }}>Ville</TableCell>
-                                            <TableCell sx={{ py: 0, lineHeight: '30px' }}>Action</TableCell>
+                                        <TableRow sx={{ bgcolor: 'grey' }}>
+                                            <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>ID</TableCell>
+                                            <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>Name</TableCell>
+                                            <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>City</TableCell>
+                                            <TableCell sx={{ py: 0, lineHeight: '40px', color: 'white' }}>Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -228,9 +246,9 @@ export default function Crud() {
                                                     <TableCell>{zone.nom}</TableCell>
                                                     <TableCell>{zone.ville ? zone.ville.nom : ''}</TableCell>
                                                     <TableCell>
-                                                        <IconButton>
+                                                        <IconButton color="primary.main" onClick={() => handleOpenEditModalZ(zone)}>
                                                             <EditIcon />
-                                                        </IconButton>
+                                                        </IconButton >
                                                         <IconButton
                                                             color="error"
                                                             aria-label="delete"
@@ -276,6 +294,27 @@ export default function Crud() {
                     </DialogActions>
                 </Dialog>
             </Modal>
+            <Dialog open={editModalOpen} onClose={() => setEditModalOpen(false)}>
+                <DialogTitle>Edit Zone</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        id="edit-zone-name"
+                        label="Zone Name"
+                        variant="outlined"
+                        fullWidth
+                        value={editedZoneName}
+                        onChange={(e) => setEditedZoneName(e.target.value)}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setEditModalOpen(false)}>Cancel</Button>
+                    <Button onClick={handleEditZoneName} color="primary">
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+
         </Container >
 
 

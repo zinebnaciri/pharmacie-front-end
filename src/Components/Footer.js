@@ -4,51 +4,53 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
+const useStyles = () => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  footer: {
+    marginTop: 'auto',
+    backgroundColor: (theme) =>
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[200]
+        : theme.palette.grey[800],
+  },
+});
 
 function Copyright() {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center">
-            {'Copyright © '}
+  return (
+    <Typography variant="body2" color="text.secondary" align="center">
+    {'Copyright © '}
 
-            Made by Zineb Naciri
+    Made by Zineb Naciri
 
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
+    {new Date().getFullYear()}
+    {'.'}
+</Typography>
+  );
 }
 
 export default function StickyFooter() {
-    return (
-        <Box
-            sx={{
+  const classes = useStyles();
 
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: '100vh',
-            }}
-        >
-            <CssBaseline />
+  return (
+    <Box className={classes.root}>
+      <CssBaseline />
 
-            <Box
-                component="footer"
-                sx={{
-                    py: 3,
-                    px: 2,
-                    mt: 'auto',
-                    backgroundColor: (theme) =>
-                        theme.palette.mode === 'light'
-                            ? theme.palette.grey[200]
-                            : theme.palette.grey[800],
-                }}
-            >
-
-
-                <Container maxWidth="sm">
-                    
-                    <Copyright />
-                </Container>
-            </Box>
-        </Box>
-    );
+      <Box
+        component="footer"
+        className={classes.footer}
+        py={3}
+        px={2}
+      >
+        <Container maxWidth="sm">
+          <Typography variant="body2" color="text.secondary" align="center">
+            <Copyright />
+          </Typography>
+        </Container>
+      </Box>
+    </Box>
+  );
 }

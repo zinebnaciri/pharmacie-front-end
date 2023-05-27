@@ -146,30 +146,27 @@ export default function PharmacyForm() {
         onChange={handleInputChange}
         required
       />
-      <ImgCrop rotationSlider>
-        <Upload.Dragger
-          name="image"
-          id="image"
-          maxCount={1}
-          listType="picture"
-          action="http://localhost:3000/Pharmacie"
-          accept=".png,.PNG,.JPEG,.jpeg,.jpg"
+     <Upload.Dragger
+  name="image"
+  id="image"
+  maxCount={1}
+  listType="picture"
+  action="http://localhost:3000/Pharmacie"
+  accept=".png,.PNG,.JPEG,.jpeg,.jpg"
+  beforeUpload={(file) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target.result;
+      console.log(dataUrl);
+      setFile(dataUrl);
+    };
+    reader.readAsDataURL(file);
+    return false;
+  }}
+>
+  <p className="ant-upload-text">Drag image here</p>
+</Upload.Dragger>
 
-          beforeUpload={(file) => {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-              const dataUrl = event.target.result;
-              console.log(dataUrl);
-              setFile(dataUrl);
-            };
-            reader.readAsDataURL(file);
-            return false;
-          }}
-        >
-          <p className="ant-upload-text">Drag image here</p>
-
-        </Upload.Dragger>
-      </ImgCrop>
       <Autocomplete
         id="zone-autocomplete"
         options={zones}
