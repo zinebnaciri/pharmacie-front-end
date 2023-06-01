@@ -17,11 +17,11 @@ export default function CardPharm({ searchText, selectedZone }) {
 
 
   useEffect(() => {
-    fetch("/api/pharmacie/all")
+    fetch("https://locationdespharmacies-production.up.railway.app/api/pharmacie/all")
       .then((response) => response.json())
       .then((data) => setPharmacies(data));
 
-    fetch("/api/zone/all")
+    fetch("https://locationdespharmacies-production.up.railway.app/api/zone/all")
       .then((response) => response.json())
       .then((data) => setZones(data));
   }, []);

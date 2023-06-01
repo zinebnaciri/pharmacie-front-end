@@ -14,7 +14,7 @@ export default function Grouped() {
   useEffect(() => {
     const accessToken = localStorage.getItem('access_token');
 
-    axios.get('/api/ville/all', {
+    axios.get('https://locationdespharmacies-production.up.railway.app/api/ville/all', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -32,7 +32,7 @@ export default function Grouped() {
     setSearchText('');
     if (value) {
       const accessToken = localStorage.getItem('access_token');
-      axios.get(`/api/zone/ville/${value.name}`, {
+      axios.get(`https://locationdespharmacies-production.up.railway.app/api/zone/ville/${value.name}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

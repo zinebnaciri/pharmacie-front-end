@@ -33,7 +33,7 @@ export default function SignInSide() {
     
         // Make a POST request to the login API endpoint using Axios
         axios
-            .post('api/auth/login', { email, password })
+            .post('https://locationdespharmacies-production.up.railway.app/api/auth/login', { email, password })
             .then((response) => {
                 const data = response.data;
                 console.log('Login response:', data);

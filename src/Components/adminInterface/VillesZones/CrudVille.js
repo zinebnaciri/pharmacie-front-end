@@ -80,8 +80,8 @@ export default function Crud() {
         
         axios
             .all([
-                axios.get('/api/ville/all'),
-                axios.get('/api/zone/all')
+                axios.get('https://locationdespharmacies-production.up.railway.app/api/ville/all'),
+                axios.get('https://locationdespharmacies-production.up.railway.app/api/zone/all')
             ])
             .then(axios.spread((villesResponse, zonesResponse) => {
                 setVilles(villesResponse.data);
@@ -95,7 +95,7 @@ export default function Crud() {
     const handleDeleteZone = () => {
         if (selectedItem && selectedItem.type === 'zone') {
             axios
-                .delete(`/api/zone/delete/${selectedItem.id}`)
+                .delete(`https://locationdespharmacies-production.up.railway.app/api/zone/delete/${selectedItem.id}`)
                 .then(() => {
                     setRefreshTables(true);
                     setSelectedItem(null);
@@ -111,7 +111,7 @@ export default function Crud() {
     const handleDeleteVille = () => {
         if (selectedItem && selectedItem.type === 'ville') {
             axios
-                .delete(`/api/ville/delete/${selectedItem.id}`)
+                .delete(`https://locationdespharmacies-production.up.railway.app/api/ville/delete/${selectedItem.id}`)
                 .then(() => {
                     setRefreshTables(true);
                     setSelectedItem(null);
@@ -133,7 +133,7 @@ export default function Crud() {
 
     const handleEditZoneName = () => {
         axios
-            .put(`/api/zone/update/${selectedZone.id}`, { nom: editedZoneName })
+            .put(`https://locationdespharmacies-production.up.railway.app/api/zone/update/${selectedZone.id}`, { nom: editedZoneName })
             .then(() => {
                 setRefreshTables(true);
                 setEditModalOpen(false);

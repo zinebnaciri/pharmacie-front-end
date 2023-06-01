@@ -16,7 +16,7 @@ export default function ZoneForm() {
   useEffect(() => {
     // Fetch data for villes from Spring API using Axios
     axios
-      .get('/api/ville/all')
+      .get('https://locationdespharmacies-production.up.railway.app/api/ville/all')
       .then((response) => {
         setVilles(response.data);
       })
@@ -41,7 +41,7 @@ export default function ZoneForm() {
       console.log('Selected Ville:', selectedVille);
       console.log('Payload:', payload);
       axios
-        .post('/api/zone/save', payload)
+        .post('https://locationdespharmacies-production.up.railway.app/api/zone/save', payload)
         .then((response) => {
           toast.success('Zone added successfully:', response.data);
           setZoneNom('');
