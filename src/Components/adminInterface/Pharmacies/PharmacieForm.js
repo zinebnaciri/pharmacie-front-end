@@ -12,7 +12,7 @@ export default function PharmacyForm() {
 
 
   const [file, setFile] = useState(null);
-
+  const accessToken = localStorage.getItem('access_token');
   const [pharmacyInfo, setPharmacyInfo] = useState({
     nom: '',
     latitude: '',
@@ -25,7 +25,11 @@ export default function PharmacyForm() {
   useEffect(() => {
     // Fetch all zones from the API using Axios
     axios
-      .get('https://locationdespharmacies-production.up.railway.app/api/zone/all')
+      .get('https://locationdespharmacies-production.up.railway.app/api/zone/all', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then(response => {
         setZones(response.data);
       })
@@ -69,7 +73,11 @@ export default function PharmacyForm() {
     console.log(updatedPharmacyInfo);
     console.log(file);
     axios
-      .post('https://locationdespharmacies-production.up.railway.app/api/pharmacie/save', updatedPharmacyInfo)
+      .post('https://locationdespharmacies-production.up.railway.app/api/pharmacie/save', updatedPharmacyInfo, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then((response) => {
         // Handle the successful response here
         toast.success('Pharmacy added successfully:', response.data);

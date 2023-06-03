@@ -11,12 +11,16 @@ export default function ZoneForm() {
   const [selectedVille, setSelectedVille] = useState(null);
   const [villes, setVilles] = useState([]);
 
-
+  const accessToken = localStorage.getItem('access_token');
 
   useEffect(() => {
     // Fetch data for villes from Spring API using Axios
     axios
-      .get('https://locationdespharmacies-production.up.railway.app/api/ville/all')
+      .get('https://locationdespharmacies-production.up.railway.app/api/ville/all', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then((response) => {
         setVilles(response.data);
       })
@@ -41,7 +45,11 @@ export default function ZoneForm() {
       console.log('Selected Ville:', selectedVille);
       console.log('Payload:', payload);
       axios
-        .post('https://locationdespharmacies-production.up.railway.app/api/zone/save', payload)
+        .post('https://locationdespharmacies-production.up.railway.app/api/zone/save', payload, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((response) => {
           toast.success('Zone added successfully:', response.data);
           setZoneNom('');

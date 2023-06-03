@@ -15,9 +15,13 @@ export default function VilleForm() {
   };
 
   const handleAddVille = () => {
-
+    const accessToken = localStorage.getItem('access_token');
     axios
-      .post('https://locationdespharmacies-production.up.railway.app/api/ville/save', { nom: villeNom })
+    
+      .post('https://locationdespharmacies-production.up.railway.app/api/ville/save', { nom: villeNom ,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },})
       .then((response) => {
         // Handle the successful response here
         toast.success('Ville added successfully');

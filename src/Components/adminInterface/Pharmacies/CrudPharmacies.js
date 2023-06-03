@@ -49,16 +49,24 @@ export default function CrudPharmacy() {
   const [selectedZone, setSelectedZone] = useState(null);
   const [allZones, setAllZones] = useState([]);
   
-
+  const accessToken = localStorage.getItem('access_token');
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch data for pharmacies from Spring API using Axios
-        const pharmaciesResponse = await axios.get('https://locationdespharmacies-production.up.railway.app/api/pharmacie/all');
+        const pharmaciesResponse = await axios.get('https://locationdespharmacies-production.up.railway.app/api/pharmacie/all', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         setPharmacies(pharmaciesResponse.data);
 
         // Fetch data for zones from Spring API using Axios
-        const zonesResponse = await axios.get('https://locationdespharmacies-production.up.railway.app/api/zone/all');
+        const zonesResponse = await axios.get('https://locationdespharmacies-production.up.railway.app/api/zone/all', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         setZones(zonesResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -74,9 +82,17 @@ export default function CrudPharmacy() {
   };
   const deletePharmacy = async (pharmacyId) => {
     try {
-      await axios.delete(`https://locationdespharmacies-production.up.railway.app/api/pharmacie/delete/${pharmacyId}`);
+      await axios.delete(`https://locationdespharmacies-production.up.railway.app/api/pharmacie/delete/${pharmacyId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       // Fetch updated data for pharmacies after deletion
-      const pharmaciesResponse = await axios.get('https://locationdespharmacies-production.up.railway.app/api/pharmacie/all');
+      const pharmaciesResponse = await axios.get('https://locationdespharmacies-production.up.railway.app/api/pharmacie/all', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setPharmacies(pharmaciesResponse.data);
     } catch (error) {
       console.error('Error deleting pharmacy:', error);
@@ -119,9 +135,7 @@ export default function CrudPharmacy() {
                         <TableCell>{pharmacy.longitude}</TableCell>
                         <TableCell>{getZoneName(pharmacy.zone.id)}</TableCell>
                         <TableCell>
-                          <IconButton>
-                            <EditIcon />
-                          </IconButton>
+                         
                           <IconButton>
                             <DeleteIcon onClick={() => deletePharmacy(pharmacy.id)} />
                           </IconButton>

@@ -76,13 +76,18 @@ export default function Crud() {
 
     const [villes, setVilles] = useState([]);
     const [zones, setZones] = useState([]);
+    const accessToken = localStorage.getItem('access_token');
     useEffect(() => {
-        
+       
         axios
             .all([
                 axios.get('https://locationdespharmacies-production.up.railway.app/api/ville/all'),
                 axios.get('https://locationdespharmacies-production.up.railway.app/api/zone/all')
-            ])
+            ], {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              })
             .then(axios.spread((villesResponse, zonesResponse) => {
                 setVilles(villesResponse.data);
                 setZones(zonesResponse.data);
@@ -95,7 +100,11 @@ export default function Crud() {
     const handleDeleteZone = () => {
         if (selectedItem && selectedItem.type === 'zone') {
             axios
-                .delete(`https://locationdespharmacies-production.up.railway.app/api/zone/delete/${selectedItem.id}`)
+                .delete(`https://locationdespharmacies-production.up.railway.app/api/zone/delete/${selectedItem.id}`, {
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`,
+                    },
+                  })
                 .then(() => {
                     setRefreshTables(true);
                     setSelectedItem(null);
@@ -111,7 +120,11 @@ export default function Crud() {
     const handleDeleteVille = () => {
         if (selectedItem && selectedItem.type === 'ville') {
             axios
-                .delete(`https://locationdespharmacies-production.up.railway.app/api/ville/delete/${selectedItem.id}`)
+                .delete(`https://locationdespharmacies-production.up.railway.app/api/ville/delete/${selectedItem.id}`, {
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`,
+                    },
+                  })
                 .then(() => {
                     setRefreshTables(true);
                     setSelectedItem(null);
@@ -133,7 +146,11 @@ export default function Crud() {
 
     const handleEditZoneName = () => {
         axios
-            .put(`https://locationdespharmacies-production.up.railway.app/api/zone/update/${selectedZone.id}`, { nom: editedZoneName })
+            .put(`https://locationdespharmacies-production.up.railway.app/api/zone/update/${selectedZone.id}`, { nom: editedZoneName }, {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              })
             .then(() => {
                 setRefreshTables(true);
                 setEditModalOpen(false);
