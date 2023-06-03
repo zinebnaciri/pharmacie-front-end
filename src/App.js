@@ -13,11 +13,11 @@ function App() {
 
   return (
     <div>
-<ResponsiveAppBar />
+
     <Routes>
       <Route path="/" element={<SignIn />} />
     </Routes>
-  
+    <ResponsiveAppBar />
     <Routes>
       <Route path="/Home" element={<Grouped />} />
       <Route path="/Cities" element={<Crud />} />

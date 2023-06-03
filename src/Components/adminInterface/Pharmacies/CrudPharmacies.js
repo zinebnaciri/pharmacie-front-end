@@ -88,10 +88,10 @@ export default function CrudPharmacy() {
     <Container sx={{ marginTop: '20px' }}>
       <Box sx={{ width: '100%' }}>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <Grid item lg={12} xs={10}>
+          <Grid item xs={12}>
             <PharmacyForm />
           </Grid>
-          <Grid item lg={12} xs={10}>
+          <Grid item xs={12}>
             <Item sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'black' }}>
               <Typography sx={{ marginRight: 'auto', color: 'white' }}>Liste des Pharmacies</Typography>
             </Item>
