@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const pages = ['Home', 'Cities', 'Pharmacies', 'Support'];
 const settings = ['Logout'];
@@ -20,7 +20,7 @@ const settings = ['Logout'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+const navigate = useNavigate()
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -34,6 +34,11 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const logoutConst = () =>{
+    localStorage.removeItem('access_token')
+    localStorage.clear()
+    navigate("/")
   };
 
   return (
@@ -109,11 +114,9 @@ function ResponsiveAppBar() {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
+              <MenuItem key='1' onClick={handleCloseUserMenu}>
+                <Typography onClick={()=>logoutConst()} textAlign="center">Logout</Typography>
               </MenuItem>
-            ))}
           </Menu>
         </Toolbar>
         <Menu

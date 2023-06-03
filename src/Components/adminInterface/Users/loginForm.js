@@ -29,6 +29,7 @@ export default function SignIn() {
         e.preventDefault();
 
         // Make a POST request to the login API endpoint using Axios
+        // Make a POST request to the login API endpoint using Axios
         axios
             .post('https://locationdespharmacies-production.up.railway.app/api/auth/login', { email, password })
             .then((response) => {
@@ -39,11 +40,14 @@ export default function SignIn() {
                     console.log('Login successful!');
                     // Extract the access token and refresh token from the response
                     const { access_token, refresh_token } = data;
-
+                        console.log(access_token);
                     // Store the tokens in local storage or any other secure storage mechanism
                     // Example:
                     localStorage.setItem('access_token', access_token);
                     localStorage.setItem('refresh_token', refresh_token);
+
+                    // Include the access token in the headers of subsequent API requests
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 
                     // Redirect the user to the dashboard or desired page
                     navigate('/Home');
@@ -57,7 +61,6 @@ export default function SignIn() {
                 // Handle error, show error message, etc.
             });
     };
-
 
     return (
         <ThemeProvider theme={theme}>

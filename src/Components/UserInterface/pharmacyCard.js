@@ -17,11 +17,17 @@ export default function CardPharm({ searchText, selectedZone }) {
 
 
   useEffect(() => {
-    fetch("https://locationdespharmacies-production.up.railway.app/api/pharmacie/all")
+    const accessToken = localStorage.getItem('access_token');
+    fetch("https://locationdespharmacies-production.up.railway.app/api/pharmacie/all",{ headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },})
+    
       .then((response) => response.json())
       .then((data) => setPharmacies(data));
 
-    fetch("https://locationdespharmacies-production.up.railway.app/api/zone/all")
+    fetch("https://locationdespharmacies-production.up.railway.app/api/zone/all",{ headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },})
       .then((response) => response.json())
       .then((data) => setZones(data));
   }, []);
